@@ -1,0 +1,15 @@
+body {
+    color: white;
+    background: black;
+}
+table, th, tr {
+    border: 1px solid;
+}
+img{
+    width: 100px;
+    height: 100px;
+}
+th{
+    width: 125px;
+    height: 125px;
+}

@@ -144,6 +144,11 @@ function computermove(){
 function calculate(move){
     const calcboard = [];    
     const calcboard2 = [];
+    tempUsedId = [];
+    for(let i = 0; i < 9; i++){
+        tempUsedId[i] = usedids[i]; 
+    }
+    tempUsedId[movesmade] = move;
     for(let i = 0; i < 9; i++){
         calcboard[i] = board[i];
     }
@@ -177,10 +182,33 @@ function calculate(move){
             continue;
         }
         calcboard2[i] = calcletter;
+        tempUsedId[movesmade + 1] = i 
         if(wincon(calcboard2) == 1){
             return 0;
         }
-
+        let movesNotPlayed = 0;
+        let winningMoves
+        for(let i = 0; i < 9; i++){
+            flag = 0;
+            for(let j = 0; j < movesmade + 2; j++){
+                if(tempUsedId[j] == i){
+                    movesNotPlayed++;
+                    flag = 1;
+                }
+            }
+            if(flag == 1){
+                continue;
+            }
+            calcboard2[i] = letter;
+            tempUsedId[movesmade + 2] = i;
+            if(wincon(calcboard2) == 1){
+                winningMoves++;
+            } 
+        }
+        if(winningMoves == 9 - movesNotPlayed){
+            return 1;
+        }
     }
+    
     return 1;
 }

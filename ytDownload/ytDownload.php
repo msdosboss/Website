@@ -5,8 +5,8 @@
         echo "Order 66 complete";
     }*/
 
-    $url = $_POST['URL'];
     $format = $_POST['formats'];
+    $url = isset($_POST['URL']) ? escapeshellarg($_POST['URL']) : '';
     $output = shell_exec("echo $url with optition $format >> /srv/http/website/test2");
 
     $file = '/srv/http/website/test2';

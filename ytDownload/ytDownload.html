@@ -10,8 +10,14 @@
         <h1>YTDownloader mp3/mp4</h1>
         <br>
         <form id="ytD" action="ytDownload.php" method="post">
+            <label for="URL">Enter Youtube URL</label>
             <input type="text" name="URL" placeholder="Enter Youtube URL"/>
             <br>
+            <label for="formats">Select the format you would like</label>
+            <select id="formats" name="formats">
+                <option value="mp3">mp3</option>
+                <option value="mp4">mp4</option>
+            </select>
             <h5 onclick="submit()">Submit</h5>
             <!--<button type="sumbit" name="execute">Execute Order 66</button>-->
         </form>

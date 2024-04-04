@@ -5,8 +5,9 @@
         echo "Order 66 complete";
     }*/
 
-    $a = $_POST['URL'];
-    $output = shell_exec("echo $a >> /srv/http/website/test2");
+    $url = $_POST['URL'];
+    $format = $_POST['formats'];
+    $output = shell_exec("echo $url with optition $format >> /srv/http/website/test2");
     //echo "This is $a";
 
 ?>

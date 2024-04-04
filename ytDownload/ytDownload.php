@@ -7,7 +7,7 @@
 
     $format = $_POST['formats'];
     $url = isset($_POST['URL']) ? escapeshellarg($_POST['URL']) : '';
-    $output = shell_exec("echo $url with optition $format >> /srv/http/website/test2");
+    $output = shell_exec("echo $url with option $format >> /srv/http/website/test2");
 
     $file = '/srv/http/website/test2';
 

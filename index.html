@@ -13,7 +13,16 @@
         <a href="songs/ram.mp3" download="ram">DOWNLOAD MOOR RAM</a>
         <form id="form" action="executeOrder66.php" method="post">
             <input type="text" name="URL" placeholder="Enter Youtube URL"/>
+            <br>
+            <h5 onclick="submit()">Submit</h5>
             <!--<button type="sumbit" name="execute">Execute Order 66</button-->
         </form>
+        <script>
+            function submit() {
+                let form = document.getElementById = "form";
+                form.submit();
+                alert("success");
+            }
+        </script>
     </body>
 </html> 

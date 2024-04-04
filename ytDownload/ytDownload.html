@@ -9,15 +9,15 @@
         <h1>!!!Still not complete!!!</h1>
         <h1>YTDownloader mp3/mp4</h1>
         <br>
-        <form id="form" action="ytDownload.php" method="post">
+        <form id="ytD" action="ytDownload.php" method="post">
             <input type="text" name="URL" placeholder="Enter Youtube URL"/>
             <br>
-            <h5 onclick="submit1()">Submit</h5>
+            <h5 onclick="submit()">Submit</h5>
             <!--<button type="sumbit" name="execute">Execute Order 66</button>-->
         </form>
         <script>
-            function submit1() {
-                let form = document.getElementById = ("form");
+            function submit() {
+                let form = document.getElementById("ytD");
                 form.submit();
                 alert("success");
             }

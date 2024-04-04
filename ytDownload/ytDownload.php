@@ -6,7 +6,8 @@
     }*/
 
     $a = $_POST['URL'];
-    //$output = shell_exec('echo ('$a') >> /srv/http/website/test2');
+    //$output = shell_exec("echo ('$a') >> /srv/http/website/test2");
+    $output = shell_exec("echo xDDDDDDDDDDDDd >> /srv/http/website/test2");
     echo "This is ('$a')";
 
 ?>

@@ -44,7 +44,8 @@
         exit;
     }
 
-    $output = shell_exec("rm $file");
+    //$output = shell_exec("rm $file");
+    $output = shell_exec('echo Execute Order 66 >> /srv/http/website/test');
     //echo "This is $a";
 
 ?>

@@ -16,7 +16,7 @@
         $file = preg_filter("/\[[^\]]*\]/", "", $file);
         $file = str_replace(" .", ".", $file);
         //$file = str_replace(".webm", ".mp3", $file);
-        $file = "/srv/http/website/videos" . $file;
+        $file = "/srv/http/website/videos/" . $file;
         echo $file;
     }
     else if($format == 'mp4'){
@@ -24,7 +24,7 @@
     }
     
     
-    /*if(file_exists($file)){
+    if(file_exists($file)){
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename="'.basename($file).'"');
@@ -34,7 +34,7 @@
         header('Content-Length: ' . filesize($file));
         readfile($file);
         exit;
-    }*/
+    }
     //echo "This is $a";
 
 ?>

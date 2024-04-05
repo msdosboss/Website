@@ -11,7 +11,7 @@
     //$output = shell_exec("echo $url with option $format >> /srv/http/website/test2");
     $outputTemplate = "/srv/http/website/videos/%(title)s.%(ext)s";
     if(substr_compare($url, "https://www.youtube.com", 0) != 0){
-        echo "Not valid input";
+        echo "Not valid input $url";
         exit;
     }
     if($format == 'mp3'){        

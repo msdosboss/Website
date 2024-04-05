@@ -42,6 +42,6 @@
         readfile($file);
     }
 
-    $output = shell_exec("rm -f $file");
+    //$output = shell_exec("rm -f $file");
 
 ?>

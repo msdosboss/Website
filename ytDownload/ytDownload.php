@@ -1,19 +1,14 @@
 <?php
-    /*if (isset($_POST['execute'])){
-        $output = shell_exec('echo Execute Order 66 >> /srv/http/website/test');
-
-        echo "Order 66 complete";
-    }*/
 
     $format = $_POST['formats'];
     $url = isset($_POST['URL']) ? escapeshellarg($_POST['URL']) : '';
     $url = filter_var($url, FILTER_SANITIZE_URL);
-    //$output = shell_exec("echo $url with option $format >> /srv/http/website/test2");
     $outputTemplate = "/srv/http/website/videos/%(title)s.%(ext)s";
     if(substr_compare($url, "'https://www.youtube.com", 0, 24) != 0){
         echo "Not valid input $url";
         exit;
     }
+
     if($format == 'mp3'){        
         $output = shell_exec("yt-dlp --extract-audio -o '$outputTemplate' '$url'"); //--audio-format mp3
         $output = shell_exec("python ytDownload.py -a");
@@ -24,6 +19,7 @@
         $file = "/srv/http/website/videos/" . $file;
         $file = trim($file);
     }
+    
     else if($format == 'mp4'){
         $output = shell_exec("yt-dlp -o '$outputTemplate' '$url'");
         $output = shell_exec("python ytDownload.py -v");

@@ -7,6 +7,7 @@
 
     $format = $_POST['formats'];
     $url = isset($_POST['URL']) ? escapeshellarg($_POST['URL']) : '';
+    $url = filter_var($url, FILTER_SANITIZE_URL);
     //$output = shell_exec("echo $url with option $format >> /srv/http/website/test2");
     $outputTemplate = "/srv/http/website/videos/%(title)s.%(ext)s";
     if($format == 'mp3'){        

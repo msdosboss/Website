@@ -18,7 +18,7 @@
         //$file = str_replace(".webm", ".mp3", $file);
         $file = "/srv/http/website/videos/'" . $file;
         $file = trim($file) . "'";
-        //echo $file;
+        echo $file;
     }
     else if($format == 'mp4'){
 

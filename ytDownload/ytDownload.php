@@ -13,7 +13,7 @@
         //$outputTemplate = "/srv/http/website/videos/%(title)s.mp3"; //%(title)s.%(ext)s
         //$output = shell_exec("yt-dlp --extract-audio -o '$outputTemplate' '$url'"); //--audio-format mp3
         $file = shell_exec("yt-dlp --print filename $url");
-        preg_filter("\[[^\]]*\]", "", $file);
+        preg_filter("\[[^\]]*\]", "\b\b", $file);
         echo "this is the name of the file $file";
     }
     else if($format == 'mp4'){

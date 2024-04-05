@@ -11,7 +11,7 @@
 
     if($format == 'mp3'){
         $outputTemplate = "/srv/http/website/videos/%(title)s.%(ext)s";
-        $output = shell_exec("yt-dlp --extract-audio --audio-format mp3 -o '$outputTemplate' $url");
+        $output = shell_exec("yt-dlp --extract-audio --audio-format mp3 -o '$outputTemplate' '$url'");
         $file = shell_exec("yt-dlp --get-filename -o '$outputTemplate' $url");
     }
     else if($format == 'mp4'){

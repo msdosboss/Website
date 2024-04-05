@@ -44,5 +44,7 @@
     }
 
     $output = shell_exec("rm -f '$file'");
+    $output = str_replace("/srv/http/website/videos/","", $file);
+    $output = shell_exec("echo $file >> /srv/http/website/videos/videosDonwloaded");
 
 ?>

@@ -10,9 +10,9 @@
     //$output = shell_exec("echo $url with option $format >> /srv/http/website/test2");
 
     if($format == 'mp3'){
-        $outputTemplate = "/srv/http/website/videos/"; //%(title)s.%(ext)s
+        $outputTemplate = "/srv/http/website/videos/audio.mp3"; //%(title)s.%(ext)s
         $output = shell_exec("yt-dlp --extract-audio -o '$outputTemplate' '$url'"); //--audio-format mp3
-        $file = shell_exec("yt-dlp --get-filename -o '$outputTemplate' $url");
+        $file = "/srv/http/website/videos/audio.mp3"
     }
     else if($format == 'mp4'){
 

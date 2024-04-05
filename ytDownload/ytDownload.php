@@ -25,6 +25,7 @@
         $file = shell_exec("yt-dlp --print filename $url");
         $file = preg_filter("/\[[^\]]*\]/", "", $file);
         $file = str_replace(" ", "", $file);
+        $file = str_replace(".webm", ".mp4", $file);
         $file = "/srv/http/website/videos/" . $file;
         $file = trim($file);
 

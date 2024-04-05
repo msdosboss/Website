@@ -10,19 +10,19 @@
     //$output = shell_exec("echo $url with option $format >> /srv/http/website/test2");
 
     if($format == 'mp3'){
-        //$outputTemplate = "/srv/http/website/videos/%(title)s.mp3"; //%(title)s.%(ext)s
-        //$output = shell_exec("yt-dlp --extract-audio -o '$outputTemplate' '$url'"); //--audio-format mp3
+        $outputTemplate = "/srv/http/website/videos/%(title)s.%(ext)s"; //%(title)s.%(ext)s
+        $output = shell_exec("yt-dlp --extract-audio -o '$outputTemplate' '$url'"); //--audio-format mp3
         $file = shell_exec("yt-dlp --print filename $url");
         $file = preg_filter("/\[[^\]]*\]/", "", $file);
         $file = str_replace(" .", ".", $file);
-        echo "this is the name of the file $file";
+        //$file = str_replace(".webm", ".mp3", $file);
     }
     else if($format == 'mp4'){
 
     }
     
     
-    /*if(file_exists($file)){
+    if(file_exists($file)){
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename="'.basename($file).'"');
@@ -32,7 +32,7 @@
         header('Content-Length: ' . filesize($file));
         readfile($file);
         exit;
-    }*/
+    }
     //echo "This is $a";
 
 ?>

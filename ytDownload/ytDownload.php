@@ -43,6 +43,8 @@
         readfile($file);
         exit;
     }
+
+    $output = shell_exec("rm $file");
     //echo "This is $a";
 
 ?>

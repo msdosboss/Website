@@ -30,7 +30,8 @@
         $file = trim($file);
 
     }
-    
+
+    $filecopy = $file;
     
     if(file_exists($file)){
         header('Content-Description: File Transfer');
@@ -43,7 +44,6 @@
         readfile($file);
     }
 
-    $output = shell_exec("rm $file");
-    echo "This is $file";
+    $output = shell_exec("rm $filecopy");
 
 ?>

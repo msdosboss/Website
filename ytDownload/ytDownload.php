@@ -21,7 +21,7 @@
     }
     else if($format == 'mp4'){
         $output = shell_exec("yt-dlp -o '$outputTemplate' '$url'");
-        $output = shell_exec("python ytDownload.py");
+        $output = shell_exec("python ytDownload.py -v");
         $file = shell_exec("yt-dlp --print filename $url");
         $file = preg_filter("/\[[^\]]*\]/", "", $file);
         $file = str_replace(" ", "", $file);

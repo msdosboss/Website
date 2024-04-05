@@ -2,7 +2,10 @@ import glob
 import os
 import sys
 
-list_of_files = glob.glob('/srv/http/website/videos/*.webm') # * means all if need specific format then *.csv
+if(sys.argv[1] == "-a"):
+    list_of_files = glob.glob('/srv/http/website/videos/*.webm') # * means all if need specific format then *.csv
+elif(sys.argv[1] == "-v"):
+    list_of_files = glob.glob('/srv/http/website/videos/*.mp4') # * means all if need specific format then *.csv
 latest_file = max(list_of_files, key=os.path.getctime)
 latest_file_new = latest_file
 latest_file_new = latest_file_new.replace(" ", "")

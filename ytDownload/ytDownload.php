@@ -18,7 +18,7 @@
         //$file = str_replace(".webm", ".mp3", $file);
         $file = "/srv/http/website/videos/'" . $file;
         $file = trim($file) . "'";
-        echo $file;
+        //echo $file;
     }
     else if($format == 'mp4'){
 
@@ -27,7 +27,7 @@
     
     if(file_exists($file)){
         header('Content-Description: File Transfer');
-        header('Content-Type: application/octet-stream');
+        header('Content-Type: video/webm');
         header('Content-Disposition: attachment; filename="'.basename($file).'"');
         header('Expires: 0');
         header('Cache-Control: must-revalidate');

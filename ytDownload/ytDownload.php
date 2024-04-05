@@ -10,6 +10,10 @@
     $url = filter_var($url, FILTER_SANITIZE_URL);
     //$output = shell_exec("echo $url with option $format >> /srv/http/website/test2");
     $outputTemplate = "/srv/http/website/videos/%(title)s.%(ext)s";
+    if(substr_compare($url, "https://www.youtube.com", 0, 23) != 0){
+        echo "Not valid input"
+        exit
+    }
     if($format == 'mp3'){        
         $output = shell_exec("yt-dlp --extract-audio -o '$outputTemplate' '$url'"); //--audio-format mp3
         $output = shell_exec("python ytDownload.py -a");

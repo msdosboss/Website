@@ -1,3 +1,17 @@
+class PostionNode{
+	constructor(postion, parent = null){
+		this.postion = postion;
+		this.parent = parent
+		this.children = [];
+	}
+	get isLeaf(){
+		return this.children.length === 0;
+	}
+	get hasChildren(){
+		return !this.isLeaf();
+	}
+}
+
 let letter = 'x';
 const usedids = [];
 let movesmade = 0;
@@ -15,15 +29,17 @@ document.getElementById("8").onclick = function() {squareclicked(this.id)};
 
 document.getElementById("reset").onclick = function() {reset()};
 
-
-
-
 const board = []
 
 for(let i = 0; i < 9; i++){
     board[i] = 'n';
 }
 
+root = new PostionNode(board);
+
+createGameTree(root);
+
+printGameTree(root, 0);
 
 function squareclicked(iden){
     for(let i = 0; i < movesmade; i++){
@@ -211,4 +227,57 @@ function calculate(move){
     }
     
     return 1;
+}
+
+function createGameTree(currentNode){
+	let avaliableMoves = [];
+	let pieceTurnState;
+	let xCount = 0;
+	let oCount = 0;
+
+	for(let i = 0; i < 9; i++){
+		if(currentNode.postion[i] == 'x'){
+			xCount++;
+		}
+		else if(currentNode.postion[i] == 'o'){
+			oCount++;
+		}
+	}
+
+	if(xCount == oCount + 1){
+		pieceTurnState = 'o';
+	}
+	else if(oCount == xCount){
+		pieceTurnState = 'x';
+	}
+	else{
+		console.log("Non legal gamestate in createGameTree()");
+		return null;
+	}
+	
+	for(let i = 0; i < 9; i++){
+		if(currentNode.postion[i] == 'n'){
+			avaliableMoves.push(i);
+		}
+	}
+	
+		
+	for(let i = 0; i < avaliableMoves.length; i++){
+		let newPostion = currentNode.postion.slice();
+		newPostion[avaliableMoves[i]] = pieceTurnState;
+		let childNode = new PostionNode(newPostion, currentNode);
+		currentNode.children.push(childNode);
+		createGameTree(childNode);
+	}
+
+
+}
+
+
+function printGameTree(root, n){
+	//console.log(n);
+	//console.log(root.children.length);
+	for(let i = 0; i < root.children.length; i++){
+		printGameTree(root.children[i], n + 1);
+	}	
 }

@@ -1,8 +1,10 @@
 class PostionNode{
-	constructor(postion, parent = null){
+	constructor(postion, parent = null, letter = 'n', engineTurn = false){
 		this.postion = postion;
 		this.parent = parent
 		this.children = [];
+		this.letter = letter;
+		this.engineTurn = engineTurn;
 	}
 	get isLeaf(){
 		return this.children.length === 0;
@@ -229,31 +231,33 @@ function calculate(move){
     return 1;
 }
 
-function createGameTree(currentNode){
+function newWincon(postionNode){
+    for(let i = 0; i < 3; i++){                                     //testing the vert wins 
+        if(boardcheck[i] == boardcheck[i + 3] && boardcheck[i] == boardcheck[i + 6] && boardcheck[i] != 'n'){
+            return 1;
+        }
+    }
+    for(let i = 0; i < 9; i = i + 3){                               //testing the hor wins
+        if(boardcheck[i] == boardcheck[i + 1] && boardcheck[i] == boardcheck[i + 2] && boardcheck[i] != 'n'){
+            return 1;
+        }
+    }
+    if(boardcheck[0] == boardcheck[4] && boardcheck[0] == boardcheck[8] && boardcheck[0] != 'n'){                //left the right diagnol win
+        return 1;
+    }
+    if(boardcheck[2] == boardcheck[4] && boardcheck[2] == boardcheck[6] && boardcheck[2] != 'n'){
+        return 1;
+    }
+    return 0;
+}
+
+
+function createGameTree(currentNode, pieceTurnState, mover){		
+	//add a wincon check at the top to stop the function from continuing even after the game has been won
 	let avaliableMoves = [];
-	let pieceTurnState;
 	let xCount = 0;
 	let oCount = 0;
 
-	for(let i = 0; i < 9; i++){
-		if(currentNode.postion[i] == 'x'){
-			xCount++;
-		}
-		else if(currentNode.postion[i] == 'o'){
-			oCount++;
-		}
-	}
-
-	if(xCount == oCount + 1){
-		pieceTurnState = 'o';
-	}
-	else if(oCount == xCount){
-		pieceTurnState = 'x';
-	}
-	else{
-		console.log("Non legal gamestate in createGameTree()");
-		return null;
-	}
 	
 	for(let i = 0; i < 9; i++){
 		if(currentNode.postion[i] == 'n'){
@@ -265,9 +269,17 @@ function createGameTree(currentNode){
 	for(let i = 0; i < avaliableMoves.length; i++){
 		let newPostion = currentNode.postion.slice();
 		newPostion[avaliableMoves[i]] = pieceTurnState;
-		let childNode = new PostionNode(newPostion, currentNode);
-		currentNode.children.push(childNode);
-		createGameTree(childNode);
+		if(pieceTurnState == 'x'){
+			let childNode = new PostionNode(newPostion, currentNode, 'o', !mover);
+			currentNode.children.push(childNode);
+			createGameTree(childNode, 'o', !mover);
+		}
+		else{
+			let childNode = new PostionNode(newPostion, currentNode, 'x', !mover);
+			currentNode.children.push(childNode);
+			createGameTree(childNode, 'x', !mover);
+
+		}
 	}
 
 
@@ -280,4 +292,18 @@ function printGameTree(root, n){
 	for(let i = 0; i < root.children.length; i++){
 		printGameTree(root.children[i], n + 1);
 	}	
+}
+
+treeCalculateHelper(root){	
+	for(let i = 0; i < root.children.length; i++){
+		
+	}
+}
+
+function treeCalculate(postion, pieceTurnState){
+	let root = new TreeNode(postion);
+	createGameTree(root, pieceTurnState, true);
+	treeCalculateHelper(root);
+
+
 }

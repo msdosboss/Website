@@ -2,6 +2,7 @@ class PostionNode{
 	constructor(postion, parent = null, letter = 'n', engineTurn = false){
 		this.postion = postion;
 		this.parent = parent
+		this.moveJustMade = -1;
 		this.children = [];
 		this.letter = letter;
 		this.engineTurn = engineTurn;
@@ -37,11 +38,11 @@ for(let i = 0; i < 9; i++){
     board[i] = 'n';
 }
 
-root = new PostionNode(board);
+//root = new PostionNode(board);
 
-createGameTree(root);
+//createGameTree(root);
 
-printGameTree(root, 0);
+//printGameTree(root, 0);
 
 function squareclicked(iden){
     for(let i = 0; i < movesmade; i++){
@@ -108,10 +109,7 @@ function reset(){
 }
 
 function computermove(){
-    let flag = 0;
-    let move = Math.floor(Math.random() * 9);
-    let tries = 0;
-    while(true){
+    /*while(true){
         flag = 0;
         for(let i = 0; i < movesmade; i++){
             if(usedids[i] == move){
@@ -131,30 +129,37 @@ function computermove(){
                     move = Math.floor(Math.random() * 9);
                     continue;
         }
-    }
-    board[move] = letter;
-    if(letter == 'x'){
-        document.getElementById(move).innerHTML = "<img src='images/x.png'>";
-        letter = 'o';
-        usedids[movesmade] = move;
-        movesmade = movesmade + 1;
-    }
-    else{
-        document.getElementById(move).innerHTML = "<img src='images/o.png'>";
-        letter = 'x';
-        usedids[movesmade] = move;
-        movesmade = movesmade + 1;
-    }
-    if(wincon(board) == 1){
-        alert(letter + " Loses");
-        reset();
-    }
-    else{
-        if(movesmade == 9){
-            alert("Draw engine");
-            reset();
-        }
-    }
+    }*/
+	let move
+ 	if(movesmade == 1 && board[4] === 'x'){	//for some reason the engine thinks all moves all losing if it sees a board on turn 1 with an x in the center only on turn 1 tho
+		move = 0
+	}
+	else{
+		move = treeCalculate(board, letter)
+	}
+	board[move] = letter;
+	if(letter == 'x'){
+		document.getElementById(move).innerHTML = "<img src='images/x.png'>";
+		letter = 'o';
+		usedids[movesmade] = move;
+		movesmade = movesmade + 1;
+	}
+	else{
+		document.getElementById(move).innerHTML = "<img src='images/o.png'>";
+		letter = 'x';
+		usedids[movesmade] = move;
+		movesmade = movesmade + 1;
+	}
+	if(wincon(board) == 1){
+		alert(letter + " Loses");
+		reset();
+	}
+	else{
+		if(movesmade == 9){
+			alert("Draw engine");
+			reset();
+		}
+	}
 
    
 }
@@ -225,39 +230,56 @@ function calculate(move){
         }
         if(winningMoves == 9 - movesNotPlayed){
             return 1;
-        }
+       	}
     }
     
     return 1;
 }
 
-function newWincon(postionNode){
-    for(let i = 0; i < 3; i++){                                     //testing the vert wins 
-        if(boardcheck[i] == boardcheck[i + 3] && boardcheck[i] == boardcheck[i + 6] && boardcheck[i] != 'n'){
-            return 1;
-        }
-    }
-    for(let i = 0; i < 9; i = i + 3){                               //testing the hor wins
-        if(boardcheck[i] == boardcheck[i + 1] && boardcheck[i] == boardcheck[i + 2] && boardcheck[i] != 'n'){
-            return 1;
-        }
-    }
-    if(boardcheck[0] == boardcheck[4] && boardcheck[0] == boardcheck[8] && boardcheck[0] != 'n'){                //left the right diagnol win
-        return 1;
-    }
-    if(boardcheck[2] == boardcheck[4] && boardcheck[2] == boardcheck[6] && boardcheck[2] != 'n'){
-        return 1;
-    }
-    return 0;
+function newWinCon(postionNode){
+	for(let i = 0; i < 3; i++){                                     //testing the vert wins 
+		if(postionNode.postion[i] == postionNode.postion[i + 3] && postionNode.postion[i] == postionNode.postion[i + 6] && postionNode.postion[i] != 'n'){
+			if(postionNode.postion[i] = 'x'){
+				return 1
+			}
+			return -1 
+		}
+	}
+	for(let i = 0; i < 9; i = i + 3){                               //testing the hor wins
+		if(postionNode.postion[i] == postionNode.postion[i + 1] && postionNode.postion[i] == postionNode.postion[i + 2] && postionNode.postion[i] != 'n'){
+			if(postionNode.postion[i] == 'x'){
+				return 1;
+			}
+			return -1
+		}
+	}
+	if(postionNode.postion[0] == postionNode.postion[4] && postionNode.postion[0] == postionNode.postion[8] && postionNode.postion[0] != 'n'){                //left the right diagnol win
+		if(postionNode.postion[0] === 'x'){
+			return 1;
+		}
+		return -1
+	}
+	if(postionNode.postion[2] == postionNode.postion[4] && postionNode.postion[2] == postionNode.postion[6] && postionNode.postion[2] != 'n'){ 
+		if(postionNode.postion[2] === 'x'){
+			return 1;
+		}
+		return -1;
+	}
+	for(let i = 0; i < 9; i++){
+		if(postionNode.postion[i] == 'n'){
+			return 0;
+		}
+	}
+	return 2;
 }
 
 
 function createGameTree(currentNode, pieceTurnState, mover){		
 	//add a wincon check at the top to stop the function from continuing even after the game has been won
+	if(newWinCon(currentNode) != 0){
+		return
+	}
 	let avaliableMoves = [];
-	let xCount = 0;
-	let oCount = 0;
-
 	
 	for(let i = 0; i < 9; i++){
 		if(currentNode.postion[i] == 'n'){
@@ -271,11 +293,13 @@ function createGameTree(currentNode, pieceTurnState, mover){
 		newPostion[avaliableMoves[i]] = pieceTurnState;
 		if(pieceTurnState == 'x'){
 			let childNode = new PostionNode(newPostion, currentNode, 'o', !mover);
+			childNode.moveJustMade = avaliableMoves[i]
 			currentNode.children.push(childNode);
 			createGameTree(childNode, 'o', !mover);
 		}
 		else{
 			let childNode = new PostionNode(newPostion, currentNode, 'x', !mover);
+			childNode.moveJustMade = avaliableMoves[i]
 			currentNode.children.push(childNode);
 			createGameTree(childNode, 'x', !mover);
 
@@ -294,16 +318,55 @@ function printGameTree(root, n){
 	}	
 }
 
-treeCalculateHelper(root){	
-	for(let i = 0; i < root.children.length; i++){
-		
+function treeCalculateHelper(current){	
+	let returnVal = new Array(current.children.length);
+	for(let i = 0; i < current.children.length; i++){
+		returnVal[i] = treeCalculateHelper(current.children[i])
+		if(current.engineTurn == true){ //this deals with player layer
+			if(returnVal[i] == -1){
+				return -1
+			}
+		}
 	}
+	if(current.engineTurn == false && current.children.length != 0){ //this deals with engine layer
+		let flag = 'l'
+		for(let i = 0; i < current.children.length; i++){
+			if(returnVal[i] == 0 || returnVal[i] == 1){
+				flag = 'w'
+				break
+			}
+		}
+		if(flag == 'l'){
+			return -1
+		}
+	
+	}
+	let winState = newWinCon(current)
+	if(winState == 1){
+		return -1;
+	}
+	if(winState == -1){
+		return 1;
+	}
+	return 0
 }
 
 function treeCalculate(postion, pieceTurnState){
-	let root = new TreeNode(postion);
-	createGameTree(root, pieceTurnState, true);
-	treeCalculateHelper(root);
+	let rooty = new PostionNode(postion);
+	createGameTree(rooty, pieceTurnState, false);
+	let indexToLastDrawingMove = -1;
+	for(let i = 0; i < rooty.children.length; i++){
+		let returnVal = treeCalculateHelper(rooty.children[i])
+		if(returnVal == 1){
+			return rooty.children[i].moveJustMade
+		}
+		if(returnVal == 0){
+			indexToLastDrawingMove = i
+		}
+	}
+	console.log(indexToLastDrawingMove)
+	return rooty.children[indexToLastDrawingMove].moveJustMade
 
 
 }
+
